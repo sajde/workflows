@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  FILENAME: ${{ 'update.txt' }}
+  FILENAME: 'update.txt'
 
 permissions:
   contents: write
