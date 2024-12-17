@@ -6,7 +6,7 @@ on:
         type: string
 
 env:
-  FILENAME: $OUTPUTNAME
+  FILENAME: OUTPUTNAME
 
 permissions:
   contents: write
