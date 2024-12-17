@@ -1,3 +1,5 @@
+name: Main workflow
+
 on:
   workflow_call:
     inputs:
