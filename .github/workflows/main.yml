@@ -1,12 +1,9 @@
 on:
   workflow_call:
     inputs:
-      config-path:
+      OUTPUTNAME:
         required: true
         type: string
-    secrets:
-      personal_access_token:
-        required: true
 
 env:
   FILENAME: 'update.txt'
