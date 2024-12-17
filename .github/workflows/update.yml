@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  build_latex:
+  update-of-date-file:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
