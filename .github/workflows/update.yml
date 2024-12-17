@@ -15,3 +15,5 @@ permissions:
 jobs:
   main-workflow:
     uses: ./.github/workflows/main.yml
+    with: 
+      OUTPUTNAME: $FILENAME
