@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+env:
+  FILENAME: update.txt
 
 permissions:
   contents: write
@@ -25,6 +29,6 @@ jobs:
         run: |
           git config --global user.name "sajde"
           git config --global user.email "116970472+sajde@users.noreply.github.com"
-          git add update.txt
+          git add $FILENAME
           git commit -m "updated file"
           git push
