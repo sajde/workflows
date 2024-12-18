@@ -18,3 +18,5 @@ jobs:
     with:
       # there's no easy way of using a variable for 'with', so it's hard-coded
       OUTPUTNAME: 'update.txt'
+      APPEND_VERSION: true
+      APPEND_BUILD_NUMBER: true
