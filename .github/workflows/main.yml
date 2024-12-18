@@ -74,7 +74,7 @@ jobs:
           name: output-file
 
       - name: Rename output file before commit
-        run: mv mynewfile $FILENAME
+        run: mv mynewfile ${{ env.FILENAME }}
 
       - name: Commit and Push file
         env:
