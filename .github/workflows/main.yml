@@ -32,11 +32,20 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+        
+      - name: Update build file
+        run: echo ${{ github.run_number }} > BUILD
 
       - name: Create output file
         run: |
           echo 'Test' > mynewfile
           date >> mynewfile
+
+      - name: Upload build file
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-file
+          path: mybuildfile
 
       - name: Upload generated file
         uses: actions/upload-artifact@v4
@@ -51,6 +60,11 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+
+      - name: Download build file
+        uses: actions/download-artifact@v4
+        with:
+          name: build-file
 
       - name: Download generated file
         uses: actions/download-artifact@v4
@@ -82,6 +96,7 @@ jobs:
         run: |
           git config --global user.name "sajde"
           git config --global user.email "116970472+sajde@users.noreply.github.com"
+          git add BUILD
           git add $FILENAME
-          git commit -m "updated file"
+          git commit -m "updated files"
           git push
