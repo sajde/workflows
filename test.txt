@@ -1,3 +1,4 @@
 just some text
 new line
 third line
+number 4
