@@ -60,6 +60,15 @@ jobs:
           name: output-file
           path: mynewfile
 
+  commit-and-push:
+    name: Commit and push output file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download generated file
+        uses: actions/download-artifact@v4
+        with:
+          name: output-file
+
       - name: Rename output file before commit
         run: mv mynewfile $FILENAME
 
