@@ -6,9 +6,6 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  OUTPUTNAME: 'update.txt'
-
 permissions:
   contents: write
 
@@ -16,7 +13,8 @@ jobs:
   main-workflow:
     uses: ./.github/workflows/main.yml
     with:
-      # there's no easy way of using a variable for 'with', so it's hard-coded
-      OUTPUTNAME: 'update.txt'
+      # setting for the output file
+      OUTPUT_NAME: 'update'
+      OUTPUT_EXT: 'txt'
       APPEND_VERSION: true
       APPEND_BUILD_NUMBER: true
