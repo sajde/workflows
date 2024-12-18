@@ -20,6 +20,7 @@ jobs:
 
   release:
     name: Create a release
+    needs: create-files
     runs-on: ubuntu-22.04
     steps:
       - name: Create release
