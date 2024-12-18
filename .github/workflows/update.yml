@@ -16,4 +16,4 @@ jobs:
   main-workflow:
     uses: ./.github/workflows/main.yml
     with: 
-      OUTPUTNAME: env.FILENAME
+      OUTPUTNAME: ${{ env.FILENAME }}
