@@ -15,5 +15,6 @@ permissions:
 jobs:
   main-workflow:
     uses: ./.github/workflows/main.yml
-    with: 
+    with:
+      # there's no easy way of using a variable for 'with', so it's hard-coded
       OUTPUTNAME: 'update.txt'
