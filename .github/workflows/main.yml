@@ -3,9 +3,13 @@ name: Main workflow
 on:
   workflow_call:
     inputs:
-      OUTPUTNAME:
+      OUTPUT_NAME:
         required: true
         type: string
+      OUTPUT_EXT:
+        required: false
+        type: string
+        default: 'txt'
       APPEND_VERSION:
         required: false
         type: boolean
@@ -16,7 +20,7 @@ on:
         default: false
 
 env:
-  FILENAME: ${{ inputs.OUTPUTNAME }}
+  FILENAME: ${{ inputs.OUTPUT_NAME }}
 
 permissions:
   contents: write
@@ -33,8 +37,16 @@ jobs:
           VER=$(cat version.txt)
           echo "VERSION=$VER" >> $GITHUB_ENV
 
-      - name: Append version information to file
+      - name: Append version information to file name
+        if: ${{ inputs.APPEND_VERSION }}
         run: echo "FILENAME=${{ env.FILENAME }}-${{ env.VERSION }}" >> $GITHUB_ENV
+
+      - name: Append build number to file name
+        if: ${{ inputs.APPEND_BUILD_NUMBER }}
+        run: echo "FILENAME=${{ env.FILENAME }}-b${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Append file extension to file name
+        run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
 
       - name: Test
         run: echo $FILENAME
