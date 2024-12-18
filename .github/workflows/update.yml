@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  FILENAME: 'update.txt'
+  OUTPUTNAME: 'update.txt'
 
 permissions:
   contents: write
@@ -16,4 +16,4 @@ jobs:
   main-workflow:
     uses: ./.github/workflows/main.yml
     with: 
-      OUTPUTNAME: ${{ env.FILENAME }}
+      OUTPUTNAME: $
