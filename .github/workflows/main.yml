@@ -26,7 +26,8 @@ permissions:
   contents: write
 
 jobs:
-  update-of-date-file:
+  update-of-file:
+    name: Update of the output file
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
