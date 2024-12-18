@@ -16,4 +16,4 @@ jobs:
   main-workflow:
     uses: ./.github/workflows/main.yml
     with: 
-      OUTPUTNAME: 'update.txt'
+      OUTPUTNAME: $FILENAME
