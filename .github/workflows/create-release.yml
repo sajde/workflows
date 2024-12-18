@@ -7,8 +7,19 @@ permissions:
   contents: write
 
 jobs:
+
+  create-files:
+    name: Create files
+    uses: ./.github/workflows/main.yml
+    with:
+      # settings for the output file
+      OUTPUT_NAME: 'update'
+      OUTPUT_EXT: 'txt'
+      OUTPUT_APPEND_VERSION: false
+      OUTPUT_APPEND_BUILD_NUMBER: false
+
   release:
-    name: Release pushed tag
+    name: Create a release
     runs-on: ubuntu-22.04
     steps:
       - name: Create release
