@@ -34,10 +34,10 @@ jobs:
           echo "VERSION=$VER" >> $GITHUB_ENV
 
       - name: Append version information to file
-        run: echo "TEST=${{ env.FILENAME }}-${{ env.VERSION }}" >> $GITHUB_ENV
-        # run: echo ::set-env name=STEPVAR::${{ env.FILENAME }}-${{ env.VERSION }}
+        run: echo "FILENAME=${{ env.FILENAME }}-${{ env.VERSION }}" >> $GITHUB_ENV
+
       - name: Test
-        run: echo $TEST
+        run: echo $FILENAME
 
       - name: Create update file
         run: |
