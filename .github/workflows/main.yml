@@ -20,6 +20,11 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
+      - name: Get version information
+        run: |
+          VER=$(cat version.txt)
+          echo "VERSION=$VER" >> $GITHUB_ENV
+
       - name: Create update file
         run: |
           echo 'Test' > $FILENAME
