@@ -10,11 +10,11 @@ on:
         required: false
         type: string
         default: 'txt'
-      APPEND_VERSION:
+      OUTPUT_APPEND_VERSION:
         required: false
         type: boolean
         default: false
-      APPEND_BUILD_NUMBER:
+      OUTPUT_APPEND_BUILD_NUMBER:
         required: false
         type: boolean
         default: false
@@ -38,11 +38,11 @@ jobs:
           echo "VERSION=$VER" >> $GITHUB_ENV
 
       - name: Append version information to file name
-        if: ${{ inputs.APPEND_VERSION }}
+        if: ${{ inputs.OUTPUT_APPEND_VERSION }}
         run: echo "FILENAME=${{ env.FILENAME }}-${{ env.VERSION }}" >> $GITHUB_ENV
 
       - name: Append build number to file name
-        if: ${{ inputs.APPEND_BUILD_NUMBER }}
+        if: ${{ inputs.OUTPUT_APPEND_BUILD_NUMBER }}
         run: echo "FILENAME=${{ env.FILENAME }}-b${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Append file extension to file name
