@@ -25,7 +25,12 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
-        
+
+      - name: Get version information from version file
+        run: |
+          VER=$(cat VERSION)
+          echo "VERSION=$VER" >> $GITHUB_ENV
+
       - name: Test
         run: ls
 
@@ -34,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$tag" 'update.txt#Der aktuelle Stand' \
+          gh release create "$VERSION" 'update.txt#Der aktuelle Stand' \
               --repo="$GITHUB_REPOSITORY" \
               --title="${tag#1}" \
               --generate-notes
