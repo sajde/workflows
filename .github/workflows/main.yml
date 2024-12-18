@@ -37,21 +37,18 @@ jobs:
           VER=$(cat version.txt)
           echo "VERSION=$VER" >> $GITHUB_ENV
 
-      - name: Append version information to file name
+      - name: Append version information to file name, if requested
         if: ${{ inputs.OUTPUT_APPEND_VERSION }}
         run: echo "FILENAME=${{ env.FILENAME }}-${{ env.VERSION }}" >> $GITHUB_ENV
 
-      - name: Append build number to file name
+      - name: Append build number to file name, if requested
         if: ${{ inputs.OUTPUT_APPEND_BUILD_NUMBER }}
         run: echo "FILENAME=${{ env.FILENAME }}-b${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Append file extension to file name
         run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
 
-      - name: Test
-        run: echo $FILENAME
-
-      - name: Create update file
+      - name: Create output file
         run: |
           echo 'Test' > $FILENAME
           date >> $FILENAME
