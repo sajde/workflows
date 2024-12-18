@@ -51,17 +51,17 @@ jobs:
 
       - name: Create output file
         run: |
-          echo 'Test' > .newfile
-          date >> .newfile
+          echo 'Test' > mynewfile
+          date >> mynewfile
 
       - name: Upload generated file
         uses: actions/upload-artifact@v4
         with:
           name: output-file
-          path: ./.newfile
+          path: mynewfile
 
       - name: Rename output file before commit
-        run: mv .newfile $FILENAME
+        run: mv mynewfile $FILENAME
 
       - name: Commit and Push file
         env:
