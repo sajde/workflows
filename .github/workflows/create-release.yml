@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$VERSION" 'update.txt#Der aktuelle Stand' \
+          gh release create "$VERSION" 'update.txt' \
               --repo="$GITHUB_REPOSITORY" \
-              --title="${tag#1}" \
+              --title="$VERSION" \
               --generate-notes
