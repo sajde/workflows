@@ -16,5 +16,5 @@ jobs:
       # setting for the output file
       OUTPUT_NAME: 'update'
       OUTPUT_EXT: 'txt'
-      APPEND_VERSION: true
+      APPEND_VERSION: false
       APPEND_BUILD_NUMBER: true
