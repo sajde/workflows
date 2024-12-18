@@ -27,11 +27,35 @@ permissions:
 
 jobs:
   update-of-file:
-    name: Update of the output file
+    name: Creation of the output file
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+
+      - name: Create output file
+        run: |
+          echo 'Test' > mynewfile
+          date >> mynewfile
+
+      - name: Upload generated file
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-file
+          path: mynewfile
+
+  commit-and-push:
+    name: Commit and push output file
+    needs: update-of-file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Download generated file
+        uses: actions/download-artifact@v4
+        with:
+          name: output-file
 
       - name: Get version information from version file
         run: |
@@ -49,35 +73,8 @@ jobs:
       - name: Append file extension to file name
         run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
 
-      - name: Create output file
-        run: |
-          echo 'Test' > mynewfile
-          date >> mynewfile
-
-      - name: Upload generated file
-        uses: actions/upload-artifact@v4
-        with:
-          name: output-file
-          path: mynewfile
-
-    outputs:
-      filename: ${{ env.FILENAME }}
-
-  commit-and-push:
-    name: Commit and push output file
-    needs: update-of-file
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v2
-
-      - name: Download generated file
-        uses: actions/download-artifact@v4
-        with:
-          name: output-file
-
       - name: Rename output file before commit
-        run: mv mynewfile ${{ needs.update-of-file.outputs.filename }}
+        run: mv mynewfile $FILENAME
 
       - name: Commit and Push file
         env:
@@ -85,6 +82,6 @@ jobs:
         run: |
           git config --global user.name "sajde"
           git config --global user.email "116970472+sajde@users.noreply.github.com"
-          git add ${{ needs.update-of-file.outputs.filename }}
+          git add $FILENAME
           git commit -m "updated file"
           git push
