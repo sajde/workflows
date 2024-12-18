@@ -60,6 +60,9 @@ jobs:
           name: output-file
           path: mynewfile
 
+    outputs:
+      filename: ${{ env.FILENAME }}
+
   commit-and-push:
     name: Commit and push output file
     needs: update-of-file
@@ -74,7 +77,7 @@ jobs:
           name: output-file
 
       - name: Rename output file before commit
-        run: mv mynewfile ${{ env.FILENAME }}
+        run: mv mynewfile ${{ needs.update-of-file.outputs.filename }}
 
       - name: Commit and Push file
         env:
@@ -82,6 +85,6 @@ jobs:
         run: |
           git config --global user.name "sajde"
           git config --global user.email "116970472+sajde@users.noreply.github.com"
-          git add $FILENAME
+          git add ${{ needs.update-of-file.outputs.filename }}
           git commit -m "updated file"
           git push
