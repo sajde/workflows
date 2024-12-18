@@ -59,7 +59,7 @@ jobs:
 
       - name: Get version information from version file
         run: |
-          VER=$(cat version.txt)
+          VER=$(cat VERSION)
           echo "VERSION=$VER" >> $GITHUB_ENV
 
       - name: Append version information to file name, if requested
