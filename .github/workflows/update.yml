@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   main-workflow:
+    name: Main workflow
     uses: ./.github/workflows/main.yml
     with:
       # settings for the output file
