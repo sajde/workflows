@@ -31,15 +31,17 @@ jobs:
           VER=$(cat VERSION)
           echo "VERSION=$VER" >> $GITHUB_ENV
 
-      - name: Test
-        run: ls
+      - name: Get build information from build file
+        run: |
+          BUI=$(cat BUILD)
+          echo "BUILD=$BUI" >> $GITHUB_ENV
 
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$VERSION" 'update.txt' \
+          gh release create "$VERSION-$BUILD" 'update.txt' \
               --repo="$GITHUB_REPOSITORY" \
               --title="$VERSION" \
               --generate-notes
