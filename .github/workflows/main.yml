@@ -96,6 +96,9 @@ jobs:
           VER=$(cat VERSION)
           echo "VERSION=$VER" >> $GITHUB_ENV
 
+      - name: set file name
+        run: echo "FILENAME=${{ inputs.OUTPUT_NAME }}" >> $GITHUB_ENV
+
       - name: Append version information to file name, if requested
         if: ${{ inputs.OUTPUT_APPEND_VERSION }}
         run: echo "FILENAME=${{ env.FILENAME }}-${{ env.VERSION }}" >> $GITHUB_ENV
