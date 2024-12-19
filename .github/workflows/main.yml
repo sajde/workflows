@@ -39,8 +39,9 @@ jobs:
       - name: Get build information from version file
         run: |
           BUI=$(cat BUILD)
-          echo "BUILD=$BUI" >> $GITHUB_ENV
-          echo "BUILD=$((BUILD+1))" >> $GITHUB_ENV
+          echo "BUILD=$BUI" >> $GITHUB_ENV          
+          let "BUILD = BUILD+1"
+          echo "BUILD" >> $GITHUB_ENV
 
       # Here comes the magic of building :-)
       - name: Create output file
