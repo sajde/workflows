@@ -107,6 +107,9 @@ jobs:
       - name: Append file extension to file name
         run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
 
+      - name: Write filename in OUTPUTFILE, so we know which file to release / upload / do whatever
+        run: echo $FILENAME > OUTPUTFILE
+
       - name: Rename output file before commit
         run: mv mynewfile $FILENAME
 
@@ -117,6 +120,7 @@ jobs:
           git config --global user.name "sajde"
           git config --global user.email "116970472+sajde@users.noreply.github.com"
           git add BUILD
+          git add OUTPUTFILE
           git add $FILENAME
           git commit -m "updated files"
           git push
