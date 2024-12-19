@@ -59,7 +59,7 @@ jobs:
           date >> mynewfile
 
       - name: Test
-        run: echo "New build number is ${{ env.NEW_BUILD_NUMBER }}"
+        run: echo "New build number is $new_build_number"
         
       - name: Upload build file
         uses: actions/upload-artifact@v4
