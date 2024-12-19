@@ -33,16 +33,6 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
         
-#      - name: Update build file
-#        run: echo ${{ github.run_number }} > BUILD
-
-#      - name: Get build information from version file
-#        run: |
-#          BUI=$(cat BUILD)
-#          echo "BUILD=$BUI" >> $GITHUB_ENV          
-#          let "BUILD = BUILD+1"
-#          echo "BUILD" >> $GITHUB_ENV
-
       - name: Read and increment build number
         id: increment
         run: |
@@ -59,9 +49,8 @@ jobs:
           NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
           echo $NEW_BUILD_NUMBER > $FILE
 
-          # Neuen Wert als Ausgabe des Schrittes definieren
+          # Neuen Wert in Varable schreiben
           echo "new_build_number=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
-          echo "::set-output name=new_build_number::$NEW_BUILD_NUMBER"
 
       # Here comes the magic of building :-)
       - name: Create output file
