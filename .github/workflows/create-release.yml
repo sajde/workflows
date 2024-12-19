@@ -36,12 +36,17 @@ jobs:
           BUI=$(cat BUILD)
           echo "BUILD=$BUI" >> $GITHUB_ENV
 
+      - name: Get output file information from output file
+        run: |
+          OUTF=$(cat OUTPUTFILE)
+          echo "OUTPUTFILE=$OUTF" >> $GITHUB_ENV
+
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$VERSION-$BUILD" 'update.txt' \
+          gh release create "$VERSION-$BUILD" '$OUTPUTFILE' \
               --repo="$GITHUB_REPOSITORY" \
               --title="$VERSION" \
               --generate-notes
