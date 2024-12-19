@@ -19,9 +19,6 @@ on:
         type: boolean
         default: false
 
-env:
-  FILENAME: ${{ inputs.OUTPUT_NAME }}
-
 permissions:
   contents: write
 
@@ -36,30 +33,28 @@ jobs:
       - name: Read and increment build number
         id: increment
         run: |
-          # Datei mit der Build-Nummer
+          # file with the build number
           FILE="BUILD"
 
-          # Sicherstellen, dass die Datei existiert
+          # make sure, file exists
           if [ ! -f "$FILE" ]; then
             echo "0" > $FILE
           fi
 
-          # Zahl auslesen, um 1 erhöhen und in die Datei schreiben
+          # read number, increment by 1 and write in file
           BUILD_NUMBER=$(cat $FILE)
           NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
           echo $NEW_BUILD_NUMBER > $FILE
 
-          # Neuen Wert in Varable schreiben
+          # make new value available
           echo "new_build_number=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
 
-      # Here comes the magic of building :-)
+      # Here comes the magic of building...
+      # That's just for testing, replace with actual building process
       - name: Create output file
         run: |
           echo 'Test' > mynewfile
           date >> mynewfile
-
-      - name: Test
-        run: echo "New build number is $new_build_number"
         
       - name: Upload build file
         uses: actions/upload-artifact@v4
@@ -67,6 +62,7 @@ jobs:
           name: build-file
           path: BUILD
 
+        # Upload build result
       - name: Upload generated file
         uses: actions/upload-artifact@v4
         with:
@@ -74,7 +70,7 @@ jobs:
           path: mynewfile
 
   commit-and-push:
-    name: Commit and push output file
+    name: Commit and push output files
     needs: update-of-file
     runs-on: ubuntu-latest
     steps:
@@ -91,6 +87,7 @@ jobs:
         with:
           name: output-file
 
+        # build requested filename
       - name: Get version information from version file
         run: |
           VER=$(cat VERSION)
@@ -113,7 +110,7 @@ jobs:
       - name: Rename output file before commit
         run: mv mynewfile $FILENAME
 
-      - name: Commit and Push file
+      - name: Commit and Push files
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
