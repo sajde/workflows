@@ -36,12 +36,32 @@ jobs:
 #      - name: Update build file
 #        run: echo ${{ github.run_number }} > BUILD
 
-      - name: Get build information from version file
+#      - name: Get build information from version file
+#        run: |
+#          BUI=$(cat BUILD)
+#          echo "BUILD=$BUI" >> $GITHUB_ENV          
+#          let "BUILD = BUILD+1"
+#          echo "BUILD" >> $GITHUB_ENV
+
+      - name: Read and increment build number
+        id: increment
         run: |
-          BUI=$(cat BUILD)
-          echo "BUILD=$BUI" >> $GITHUB_ENV          
-          let "BUILD = BUILD+1"
-          echo "BUILD" >> $GITHUB_ENV
+          # Datei mit der Build-Nummer
+          FILE="BUILD"
+
+          # Sicherstellen, dass die Datei existiert
+          if [ ! -f "$FILE" ]; then
+            echo "0" > $FILE
+          fi
+
+          # Zahl auslesen, um 1 erhöhen und in die Datei schreiben
+          BUILD_NUMBER=$(cat $FILE)
+          NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
+          echo $NEW_BUILD_NUMBER > $FILE
+
+          # Neuen Wert als Ausgabe des Schrittes definieren
+          echo "new_build_number=$NEW_BUILD_NUMBER" >> $GITHUB_ENV
+          echo "::set-output name=new_build_number::$NEW_BUILD_NUMBER"
 
       # Here comes the magic of building :-)
       - name: Create output file
