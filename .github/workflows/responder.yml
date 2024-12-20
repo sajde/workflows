@@ -2,31 +2,33 @@ name: Responder Workflow
 
 on:
   workflow_call:
+
     inputs:
       TEST:
+        type: string
         description: "Input from caller workflow"
         required: true
 
-outputs:
-  HELLO:
-    description: "Response based on the input TEST"
+    outputs:
+      HELLO:
+        description: "Response based on the input TEST"
+        value: ${{ jobs.process-input.outputs.hello }}
+
 
 jobs:
   process-input:
     runs-on: ubuntu-latest
+    outputs:
+      hello: ${{ steps.set-output.outputs.hello }}
     steps:
       - name: Process input TEST
         id: process
         run: |
           if [ "${{ inputs.TEST }}" == "Hello from Caller" ]; then
-            echo "HELLO=Hello back to Caller" >> $GITHUB_ENV
+            echo "FEEDBACK=Hello back to Caller" >> $GITHUB_ENV
           else
-            echo "HELLO=Unknown input" >> $GITHUB_ENV
+            echo "FEEDBACK=Unknown input" >> $GITHUB_ENV
 
       - name: Set output HELLO
-        run: echo "HELLO=${{ env.HELLO }}"
         id: set-output
-        env:
-          HELLO: ${{ env.HELLO }}
-        outputs:
-          HELLO: ${{ env.HELLO }}
+        run: echo "hello=FEEDBACK" >> $GITHUB_OUTPUT
