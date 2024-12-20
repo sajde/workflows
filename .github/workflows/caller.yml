@@ -14,21 +14,16 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const response = await github.actions.createWorkflowDispatch({
+            const workflowDispatchResponse = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "responder.yml", # Name des zweiten Workflows
-              ref: context.ref,
+              workflow_id: "responder.yml", // Name des zweiten Workflows
+              ref: context.ref, // Branch oder Commit-Ref
               inputs: {
                 TEST: "Hello from Caller"
               }
             });
-            core.setOutput("response", response);
+            core.setOutput("response", "Workflow dispatched successfully!");
 
-  process-response:
-    needs: call-secondary-workflow
-    runs-on: ubuntu-latest
-    steps:
-      - name: Use HELLO from secondary workflow
-        run: |
-          echo "Processing HELLO response: ${{ steps.trigger.outputs.response }}"
+      - name: Debug response
+        run: echo "Trigger Response: ${{ steps.trigger.outputs.response }}"
