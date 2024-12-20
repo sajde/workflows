@@ -1,24 +1,32 @@
 name: Responder Workflow
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       TEST:
-        description: "Input variable TEST from caller workflow"
+        description: "Input from caller workflow"
         required: true
+
+outputs:
+  HELLO:
+    description: "Response based on the input TEST"
 
 jobs:
   process-input:
     runs-on: ubuntu-latest
     steps:
-      - name: Read input TEST and process it
-        id: evaluate
+      - name: Process input TEST
+        id: process
         run: |
-          if [ "${{ github.event.inputs.TEST }}" == "Hello from Caller" ]; then
+          if [ "${{ inputs.TEST }}" == "Hello from Caller" ]; then
             echo "HELLO=Hello back to Caller" >> $GITHUB_ENV
           else
             echo "HELLO=Unknown input" >> $GITHUB_ENV
 
-      - name: Output HELLO for caller workflow
-        run: |
-          echo "HELLO=${{ env.HELLO }}"
+      - name: Set output HELLO
+        run: echo "HELLO=${{ env.HELLO }}"
+        id: set-output
+        env:
+          HELLO: ${{ env.HELLO }}
+        outputs:
+          HELLO: ${{ env.HELLO }}
