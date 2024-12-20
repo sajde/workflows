@@ -1,0 +1,24 @@
+name: Responder Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      TEST:
+        description: "Input variable TEST from caller workflow"
+        required: true
+
+jobs:
+  process-input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read input TEST and process it
+        id: evaluate
+        run: |
+          if [ "${{ github.event.inputs.TEST }}" == "Hello from Caller" ]; then
+            echo "HELLO=Hello back to Caller" >> $GITHUB_ENV
+          else
+            echo "HELLO=Unknown input" >> $GITHUB_ENV
+
+      - name: Output HELLO for caller workflow
+        run: |
+          echo "HELLO=${{ env.HELLO }}"
