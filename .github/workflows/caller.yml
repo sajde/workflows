@@ -1,0 +1,34 @@
+name: Caller Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-secondary-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the secondary workflow
+        id: trigger
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "responder.yml", # Name des zweiten Workflows
+              ref: context.ref,
+              inputs: {
+                TEST: "Hello from Caller"
+              }
+            });
+            core.setOutput("response", response);
+
+  process-response:
+    needs: call-secondary-workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use HELLO from secondary workflow
+        run: |
+          echo "Processing HELLO response: ${{ steps.trigger.outputs.response }}"
