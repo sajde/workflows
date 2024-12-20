@@ -14,11 +14,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const workflowDispatchResponse = await github.rest.actions.createWorkflowDispatch({
+            const response = await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "responder.yml", // Name des zweiten Workflows
-              ref: context.ref, // Branch oder Commit-Ref
+              ref: "main", // Ziel-Branch
               inputs: {
                 TEST: "Hello from Caller"
               }
