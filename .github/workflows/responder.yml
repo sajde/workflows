@@ -28,6 +28,7 @@ jobs:
             echo "FEEDBACK=Hello back to Caller" >> $GITHUB_ENV
           else
             echo "FEEDBACK=Unknown input" >> $GITHUB_ENV
+          fi
 
       - name: Set output HELLO
         id: set-output
