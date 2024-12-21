@@ -32,4 +32,4 @@ jobs:
 
       - name: Set output HELLO
         id: set-output
-        run: echo "hello=FEEDBACK" >> $GITHUB_OUTPUT
+        run: echo "hello=$FEEDBACK" >> $GITHUB_OUTPUT
