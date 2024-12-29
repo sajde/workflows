@@ -21,7 +21,7 @@ jobs:
   release:
     name: Create a release
     needs: create-files
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -36,17 +36,15 @@ jobs:
           BUI=$(cat BUILD)
           echo "BUILD=$BUI" >> $GITHUB_ENV
 
-      - name: Get output file information from output file
-        run: |
-          OUTF=$(cat OUTPUTFILE)
-          echo "OUTPUTFILE=$OUTF" >> $GITHUB_ENV
-
+      - name: Print name of output file
+        run: echo "output file is ${{ needs.create-files.outputs.outputfile }}"
+        
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$VERSION-$BUILD" '$OUTPUTFILE' \
+          gh release create "$VERSION-$BUILD" '${{ needs.create-files.outputs.outputfile }}' \
               --repo="$GITHUB_REPOSITORY" \
               --title="$VERSION" \
               --generate-notes
