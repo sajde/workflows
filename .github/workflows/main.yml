@@ -1,7 +1,9 @@
 name: Main workflow
 
 on:
+
   workflow_call:
+
     inputs:
       OUTPUT_NAME:
         required: true
@@ -19,6 +21,11 @@ on:
         type: boolean
         default: false
 
+    outputs:
+      OUTPUTFILE:
+        description: "Name of the outputfile"
+        value: ${{ jobs.commit-and-push.outputs.outputfile }}
+
 permissions:
   contents: write
 
@@ -26,6 +33,8 @@ jobs:
   update-of-file:
     name: Creation of the output file
     runs-on: ubuntu-latest
+    outputs:
+      outputfile: ${{ steps.set-outputfile.outputs.outputfile }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -107,8 +116,10 @@ jobs:
       - name: Append file extension to file name
         run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
 
-      - name: Write filename in OUTPUTFILE, so we know which file to release / upload / do whatever
-        run: echo $FILENAME > OUTPUTFILE
+      - name: Write filename in OUTPUTFILE, so we later know which file to release / upload / do whatever
+        id: set-outputfile
+        # run: echo $FILENAME > OUTPUTFILE
+        run: echo "OUTPUTFILE=$FILENAME" >> $GITHUB_OUTPUT
 
       - name: Rename output file before commit
         run: mv mynewfile $FILENAME
@@ -120,7 +131,6 @@ jobs:
           git config --global user.name "sajde"
           git config --global user.email "116970472+sajde@users.noreply.github.com"
           git add BUILD
-          git add OUTPUTFILE
           git add $FILENAME
           git commit -m "updated files"
           git push
