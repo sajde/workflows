@@ -103,6 +103,11 @@ jobs:
         run: |
           VER=$(cat VERSION)
           echo "VERSION=$VER" >> $GITHUB_ENV
+      
+      - name: Get build information from build file
+        run: |
+          BUI=$(cat BUILD)
+          echo "BUILD=$BUI" >> $GITHUB_ENV
 
       - name: set file name
         run: echo "FILENAME=${{ inputs.OUTPUT_NAME }}" >> $GITHUB_ENV
@@ -113,14 +118,13 @@ jobs:
 
       - name: Append build number to file name, if requested
         if: ${{ inputs.OUTPUT_APPEND_BUILD_NUMBER }}
-        run: echo "FILENAME=${{ env.FILENAME }}-${{ github.run_number }}" >> $GITHUB_ENV
+        run: echo "FILENAME=${{ env.FILENAME }}-${{ env.BUILD }}" >> $GITHUB_ENV
 
       - name: Append file extension to file name
         run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
 
-      - name: Write filename in OUTPUTFILE, so we later know which file to release / upload / do whatever
+      - name: Save complete filename as OUTPUTFILE, so we later know which file to release / upload / do whatever
         id: set-outputfile
-        # run: echo $FILENAME > OUTPUTFILE
         run: echo "OUTPUTFILE=${{ env.FILENAME }}" >> $GITHUB_OUTPUT
 
       - name: Rename output file before commit
@@ -134,5 +138,5 @@ jobs:
           git config --global user.email "116970472+sajde@users.noreply.github.com"
           git add BUILD
           git add $FILENAME
-          git commit -m "updated files"
+          git commit -m "${{ env.FILENAME }} added, BUILD file updated"
           git push
