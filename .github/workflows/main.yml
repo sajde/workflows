@@ -113,7 +113,7 @@ jobs:
 
       - name: Append build number to file name, if requested
         if: ${{ inputs.OUTPUT_APPEND_BUILD_NUMBER }}
-        run: echo "FILENAME=${{ env.FILENAME }}-b${{ github.run_number }}" >> $GITHUB_ENV
+        run: echo "FILENAME=${{ env.FILENAME }}-${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Append file extension to file name
         run: echo "FILENAME=${{ env.FILENAME }}.${{ inputs.OUTPUT_EXT }}" >> $GITHUB_ENV
