@@ -19,3 +19,11 @@ jobs:
       OUTPUT_EXT: 'txt'
       OUTPUT_APPEND_VERSION: false
       OUTPUT_APPEND_BUILD_NUMBER: false
+
+  check-name:
+    needs: main-workflow
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Print response from main workflow
+        run: echo "Response from secondary workflow ${{ needs.main-workflow.outputs.outputfile }}"
