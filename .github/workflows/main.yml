@@ -119,7 +119,7 @@ jobs:
       - name: Write filename in OUTPUTFILE, so we later know which file to release / upload / do whatever
         id: set-outputfile
         # run: echo $FILENAME > OUTPUTFILE
-        run: echo "OUTPUTFILE=$FILENAME" >> $GITHUB_OUTPUT
+        run: echo "OUTPUTFILE=${{ env.FILENAME }}" >> $GITHUB_OUTPUT
 
       - name: Rename output file before commit
         run: mv mynewfile $FILENAME
