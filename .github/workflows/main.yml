@@ -33,8 +33,7 @@ jobs:
   update-of-file:
     name: Creation of the output file
     runs-on: ubuntu-latest
-    outputs:
-      outputfile: ${{ steps.set-outputfile.outputs.outputfile }}
+
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -82,6 +81,9 @@ jobs:
     name: Commit and push output files
     needs: update-of-file
     runs-on: ubuntu-latest
+    outputs:
+      outputfile: ${{ steps.set-outputfile.outputs.outputfile }}
+      
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
